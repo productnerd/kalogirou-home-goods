@@ -7,6 +7,7 @@ import { supabase } from '@/lib/supabase';
 import { Product, CartItem } from '@/types/database';
 import { useCart } from '@/hooks/useCart';
 import ProductCard from '@/components/ProductCard';
+import { PLACEHOLDER_IMAGES } from '@/lib/placeholder-images';
 
 function getImageUrl(storagePath: string): string {
   return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/kalogirou-product-images/${storagePath}`;
@@ -40,7 +41,11 @@ function ProductDetail() {
         const images = data.kalogirou_product_images ?? [];
         const primary = images.find((img: { is_primary: boolean }) => img.is_primary);
         const first = primary || images[0];
-        if (first) setMainImage(getImageUrl(first.storage_path));
+        if (first) {
+          setMainImage(getImageUrl(first.storage_path));
+        } else if (PLACEHOLDER_IMAGES[data.id]) {
+          setMainImage(PLACEHOLDER_IMAGES[data.id]);
+        }
 
         // Fetch related products from same category
         const { data: relatedData } = await supabase
@@ -122,7 +127,9 @@ function ProductDetail() {
   function handleAddToCart() {
     if (!product) return;
     const primaryImg = images.find((img) => img.is_primary) || images[0];
-    const imageUrl = primaryImg ? getImageUrl(primaryImg.storage_path) : undefined;
+    const imageUrl = primaryImg
+      ? getImageUrl(primaryImg.storage_path)
+      : PLACEHOLDER_IMAGES[product.id] || undefined;
 
     const item: CartItem = {
       product_id: product.id,

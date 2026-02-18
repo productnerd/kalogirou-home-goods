@@ -7,6 +7,7 @@ import SearchBar from '@/components/SearchBar';
 import CategoryFilter from '@/components/CategoryFilter';
 import ProductGrid from '@/components/ProductGrid';
 import SortSelect from '@/components/SortSelect';
+import { HERO_IMAGE } from '@/lib/placeholder-images';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -83,13 +84,18 @@ export default function Home() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Hero */}
-      <div className="bg-surface rounded-2xl px-6 py-12 sm:py-16 mb-8 text-center">
-        <h1 className="font-serif text-3xl sm:text-4xl text-foreground mb-3">
-          Quality Home Goods
-        </h1>
-        <p className="text-muted text-base sm:text-lg max-w-md mx-auto">
-          Kitchenware, storage, and everyday essentials for your home. Visit us in Larnaca, Cyprus.
-        </p>
+      <div
+        className="relative rounded-2xl overflow-hidden mb-8"
+        style={{ backgroundImage: `url(${HERO_IMAGE})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      >
+        <div className="bg-foreground/40 px-6 py-16 sm:py-20 text-center">
+          <h1 className="font-serif text-3xl sm:text-4xl text-white mb-3">
+            Quality Home Goods
+          </h1>
+          <p className="text-white/80 text-base sm:text-lg max-w-md mx-auto">
+            Kitchenware, storage, and everyday essentials for your home. Visit us in Larnaca, Cyprus.
+          </p>
+        </div>
       </div>
 
       <div className="mb-6">

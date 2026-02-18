@@ -2,13 +2,16 @@
 
 import Link from 'next/link';
 import { Product } from '@/types/database';
+import { PLACEHOLDER_IMAGES } from '@/lib/placeholder-images';
 
 function getImageUrl(product: Product): string | null {
   const images = product.kalogirou_product_images;
-  if (!images || images.length === 0) return null;
-  const primary = images.find((img) => img.is_primary);
-  const image = primary || images[0];
-  return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/kalogirou-product-images/${image.storage_path}`;
+  if (images && images.length > 0) {
+    const primary = images.find((img) => img.is_primary);
+    const image = primary || images[0];
+    return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/kalogirou-product-images/${image.storage_path}`;
+  }
+  return PLACEHOLDER_IMAGES[product.id] || null;
 }
 
 export default function ProductCard({ product }: { product: Product }) {

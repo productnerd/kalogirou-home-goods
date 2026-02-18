@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Fraunces, Nunito_Sans } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import { CartProvider } from "@/hooks/useCart";
 
-const playfair = Playfair_Display({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-fraunces",
   display: "swap",
 });
 
-const inter = Inter({
-  subsets: ["latin", "greek"],
-  variable: "--font-inter",
+const nunito = Nunito_Sans({
+  subsets: ["latin"],
+  variable: "--font-nunito",
   display: "swap",
 });
 
@@ -27,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
+    <html lang="en" className={`${fraunces.variable} ${nunito.variable}`}>
       <body className="antialiased font-sans">
         <CartProvider>
           <Header />
