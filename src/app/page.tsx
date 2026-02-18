@@ -98,7 +98,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="mb-6">
+      <div className="mb-6 flex justify-center">
         <SearchBar value={searchQuery} onChange={setSearchQuery} />
       </div>
 
