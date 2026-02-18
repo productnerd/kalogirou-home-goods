@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import { Product, CartItem } from '@/types/database';
 import { useCart } from '@/hooks/useCart';
+import ProductCard from '@/components/ProductCard';
 
 function getImageUrl(storagePath: string): string {
   return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/kalogirou-product-images/${storagePath}`;
@@ -22,6 +23,7 @@ function ProductDetail() {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [addedFeedback, setAddedFeedback] = useState(false);
+  const [related, setRelated] = useState<Product[]>([]);
 
   useEffect(() => {
     async function fetchProduct() {
@@ -39,6 +41,17 @@ function ProductDetail() {
         const primary = images.find((img: { is_primary: boolean }) => img.is_primary);
         const first = primary || images[0];
         if (first) setMainImage(getImageUrl(first.storage_path));
+
+        // Fetch related products from same category
+        const { data: relatedData } = await supabase
+          .from('kalogirou_products')
+          .select('*, kalogirou_product_images(*), kalogirou_product_variants(*)')
+          .eq('category_id', data.category_id)
+          .eq('is_active', true)
+          .neq('id', data.id)
+          .limit(4);
+
+        setRelated(relatedData ?? []);
       }
       setLoading(false);
     }
@@ -240,6 +253,18 @@ function ProductDetail() {
           </button>
         </div>
       </div>
+
+      {/* Related Products */}
+      {related.length > 0 && (
+        <div className="mt-16">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">You might also like</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {related.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
