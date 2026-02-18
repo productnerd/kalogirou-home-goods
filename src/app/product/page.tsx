@@ -62,21 +62,33 @@ function ProductDetail() {
   if (!id) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-16 text-center">
-        <p className="text-gray-500">No product specified.</p>
-        <Link href="/" className="text-blue-600 hover:underline mt-4 inline-block">Back to catalog</Link>
+        <p className="text-muted">No product specified.</p>
+        <Link href="/" className="text-accent hover:text-accent-hover mt-4 inline-block">Back to catalog</Link>
       </div>
     );
   }
 
   if (loading) {
-    return <p className="text-center text-gray-500 py-16">Loading...</p>;
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 animate-pulse">
+          <div className="aspect-square bg-accent-light rounded-lg" />
+          <div className="space-y-4 py-4">
+            <div className="h-8 bg-accent-light rounded w-3/4" />
+            <div className="h-4 bg-accent-light rounded w-full" />
+            <div className="h-4 bg-accent-light rounded w-2/3" />
+            <div className="h-6 bg-accent-light rounded w-1/4 mt-4" />
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (!product) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-8 text-center">
-        <p className="text-gray-500">Product not found.</p>
-        <Link href="/" className="text-blue-600 hover:underline mt-4 inline-block">Back to catalog</Link>
+        <p className="text-muted">Product not found.</p>
+        <Link href="/" className="text-accent hover:text-accent-hover mt-4 inline-block">Back to catalog</Link>
       </div>
     );
   }
@@ -131,18 +143,18 @@ function ProductDetail() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <Link href="/" className="text-sm text-blue-600 hover:underline mb-6 inline-block">
+      <Link href="/" className="text-sm text-accent hover:text-accent-hover mb-6 inline-block">
         &larr; Back to catalog
       </Link>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Image section */}
         <div>
-          <div className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden mb-4">
+          <div className="relative aspect-square bg-accent-light rounded-lg overflow-hidden mb-4">
             {mainImage ? (
               <img src={mainImage} alt={product.title} className="object-cover w-full h-full" />
             ) : (
-              <div className="flex items-center justify-center h-full text-gray-300">
+              <div className="flex items-center justify-center h-full text-muted/30">
                 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
                   <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
@@ -163,7 +175,7 @@ function ProductDetail() {
                       key={img.id}
                       onClick={() => setMainImage(url)}
                       className={`relative w-16 h-16 shrink-0 rounded-md overflow-hidden border-2 ${
-                        mainImage === url ? 'border-blue-600' : 'border-gray-200'
+                        mainImage === url ? 'border-accent' : 'border-border'
                       }`}
                     >
                       <img src={url} alt={img.alt_text || product.title} className="object-cover w-full h-full" />
@@ -176,33 +188,33 @@ function ProductDetail() {
 
         {/* Details section */}
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{product.title}</h1>
+          <h1 className="font-serif text-2xl font-bold text-foreground">{product.title}</h1>
 
-          {product.description && <p className="text-gray-600 mt-3">{product.description}</p>}
+          {product.description && <p className="text-muted mt-3">{product.description}</p>}
 
           {product.material && (
-            <p className="text-sm text-gray-500 mt-2">
+            <p className="text-sm text-muted mt-2">
               <span className="font-medium">Material:</span> {product.material}
             </p>
           )}
 
           {product.sku && (
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-muted mt-1">
               <span className="font-medium">SKU:</span> {product.sku}
             </p>
           )}
 
           <div className="mt-4">
             {displayPrice !== null ? (
-              <p className="text-xl font-bold text-gray-900">&euro;{displayPrice.toFixed(2)}</p>
+              <p className="text-xl font-bold text-accent">&euro;{displayPrice.toFixed(2)}</p>
             ) : (
-              <p className="text-sm text-gray-500">Select options to see price</p>
+              <p className="text-sm text-muted">Select options to see price</p>
             )}
           </div>
 
           {sizes.length > 0 && (
             <div className="mt-4">
-              <p className="text-sm font-medium text-gray-700 mb-2">Size</p>
+              <p className="text-sm font-medium text-foreground mb-2">Size</p>
               <div className="flex flex-wrap gap-2">
                 {sizes.map((size) => (
                   <button
@@ -210,8 +222,8 @@ function ProductDetail() {
                     onClick={() => setSelectedSize(selectedSize === size ? null : size)}
                     className={`px-4 py-2 rounded-md text-sm border transition-colors ${
                       selectedSize === size
-                        ? 'border-blue-600 bg-blue-50 text-blue-700'
-                        : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                        ? 'border-accent bg-accent-light text-foreground'
+                        : 'border-border text-foreground hover:border-accent'
                     }`}
                   >
                     {size}
@@ -223,7 +235,7 @@ function ProductDetail() {
 
           {colors.length > 0 && (
             <div className="mt-4">
-              <p className="text-sm font-medium text-gray-700 mb-2">Color</p>
+              <p className="text-sm font-medium text-foreground mb-2">Color</p>
               <div className="flex flex-wrap gap-2">
                 {colors.map((color) => (
                   <button
@@ -231,8 +243,8 @@ function ProductDetail() {
                     onClick={() => setSelectedColor(selectedColor === color ? null : color)}
                     className={`px-4 py-2 rounded-md text-sm border transition-colors ${
                       selectedColor === color
-                        ? 'border-blue-600 bg-blue-50 text-blue-700'
-                        : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                        ? 'border-accent bg-accent-light text-foreground'
+                        : 'border-border text-foreground hover:border-accent'
                     }`}
                   >
                     {color}
@@ -242,12 +254,12 @@ function ProductDetail() {
             </div>
           )}
 
-          {outOfStock && <p className="text-sm text-red-600 mt-3">Out of stock</p>}
+          {outOfStock && <p className="text-sm text-error mt-3">Out of stock</p>}
 
           <button
             onClick={handleAddToCart}
             disabled={!selectionsComplete || displayPrice === null || outOfStock}
-            className="mt-6 w-full py-3 rounded-lg text-white font-medium transition-colors bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
+            className="mt-6 w-full py-3 rounded-lg text-white font-medium transition-colors bg-accent hover:bg-accent-hover disabled:bg-border disabled:cursor-not-allowed"
           >
             {addedFeedback ? 'Added!' : outOfStock ? 'Out of Stock' : 'Add to Cart'}
           </button>
@@ -257,7 +269,7 @@ function ProductDetail() {
       {/* Related Products */}
       {related.length > 0 && (
         <div className="mt-16">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">You might also like</h2>
+          <h2 className="font-serif text-lg font-semibold text-foreground mb-4">You might also like</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {related.map((p) => (
               <ProductCard key={p.id} product={p} />
@@ -271,7 +283,19 @@ function ProductDetail() {
 
 export default function ProductPage() {
   return (
-    <Suspense fallback={<p className="text-center text-gray-500 py-16">Loading...</p>}>
+    <Suspense fallback={
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 animate-pulse">
+          <div className="aspect-square bg-accent-light rounded-lg" />
+          <div className="space-y-4 py-4">
+            <div className="h-8 bg-accent-light rounded w-3/4" />
+            <div className="h-4 bg-accent-light rounded w-full" />
+            <div className="h-4 bg-accent-light rounded w-2/3" />
+            <div className="h-6 bg-accent-light rounded w-1/4 mt-4" />
+          </div>
+        </div>
+      </div>
+    }>
       <ProductDetail />
     </Suspense>
   );

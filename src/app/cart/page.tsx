@@ -7,18 +7,18 @@ export default function CartPage() {
   const { items, updateQuantity, removeFromCart, total, loaded } = useCart();
 
   if (!loaded) {
-    return <p className="text-center text-gray-500 py-16">Loading...</p>;
+    return <div className="text-center py-16 animate-pulse"><div className="h-6 bg-accent-light rounded w-32 mx-auto" /></div>;
   }
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-[#FAFAF8]">
+      <div className="min-h-screen bg-background">
         <div className="max-w-3xl mx-auto px-4 py-16 text-center">
-          <h1 className="text-2xl font-semibold text-gray-900 mb-4">Your Cart</h1>
-          <p className="text-gray-500 mb-8">Your cart is empty</p>
+          <h1 className="text-2xl font-semibold font-serif text-foreground mb-4">Your Cart</h1>
+          <p className="text-muted mb-8">Your cart is empty</p>
           <Link
             href="/"
-            className="inline-block bg-[#2563EB] text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 transition-colors"
+            className="inline-block bg-accent text-white px-6 py-2.5 rounded-lg hover:bg-accent-hover transition-colors"
           >
             Browse Catalog
           </Link>
@@ -28,18 +28,18 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8]">
+    <div className="min-h-screen bg-background">
       <div className="max-w-3xl mx-auto px-4 py-8">
-        <h1 className="text-2xl font-semibold text-gray-900 mb-8">Your Cart</h1>
+        <h1 className="text-2xl font-semibold font-serif text-foreground mb-8">Your Cart</h1>
 
         <div className="space-y-4">
           {items.map((item) => (
             <div
               key={`${item.product_id}-${item.variant_id ?? 'base'}`}
-              className="bg-white rounded-lg p-4 shadow-sm flex flex-col sm:flex-row sm:items-center gap-4"
+              className="bg-white rounded-lg p-4 border border-border flex flex-col sm:flex-row sm:items-center gap-4"
             >
               {/* Image */}
-              <div className="w-20 h-20 flex-shrink-0 rounded-md overflow-hidden bg-gray-100">
+              <div className="w-20 h-20 flex-shrink-0 rounded-md overflow-hidden bg-accent-light">
                 {item.image ? (
                   <img
                     src={item.image}
@@ -47,7 +47,7 @@ export default function CartPage() {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-300">
+                  <div className="w-full h-full flex items-center justify-center text-muted/30">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="32"
@@ -67,11 +67,11 @@ export default function CartPage() {
 
               {/* Info */}
               <div className="flex-1 min-w-0">
-                <h3 className="font-medium text-gray-900 truncate">{item.title}</h3>
+                <h3 className="font-medium text-foreground truncate">{item.title}</h3>
                 {item.variant_label && (
-                  <p className="text-sm text-gray-500">{item.variant_label}</p>
+                  <p className="text-sm text-muted">{item.variant_label}</p>
                 )}
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-sm text-muted mt-1">
                   &euro;{item.price.toFixed(2)}
                 </p>
               </div>
@@ -82,7 +82,7 @@ export default function CartPage() {
                   onClick={() =>
                     updateQuantity(item.product_id, item.variant_id, item.quantity - 1)
                   }
-                  className="w-8 h-8 rounded-md border border-gray-300 flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
+                  className="w-8 h-8 rounded-md border border-border flex items-center justify-center text-foreground hover:bg-surface transition-colors"
                 >
                   &minus;
                 </button>
@@ -91,7 +91,7 @@ export default function CartPage() {
                   onClick={() =>
                     updateQuantity(item.product_id, item.variant_id, item.quantity + 1)
                   }
-                  className="w-8 h-8 rounded-md border border-gray-300 flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
+                  className="w-8 h-8 rounded-md border border-border flex items-center justify-center text-foreground hover:bg-surface transition-colors"
                 >
                   +
                 </button>
@@ -99,7 +99,7 @@ export default function CartPage() {
 
               {/* Line total */}
               <div className="text-right sm:w-24">
-                <p className="font-medium text-gray-900">
+                <p className="font-medium text-foreground">
                   &euro;{(item.price * item.quantity).toFixed(2)}
                 </p>
               </div>
@@ -107,7 +107,7 @@ export default function CartPage() {
               {/* Remove button */}
               <button
                 onClick={() => removeFromCart(item.product_id, item.variant_id)}
-                className="self-start sm:self-center p-1.5 text-gray-400 hover:text-red-500 transition-colors"
+                className="self-start sm:self-center p-1.5 text-muted hover:text-error transition-colors"
                 aria-label={`Remove ${item.title}`}
               >
                 <svg
@@ -130,23 +130,23 @@ export default function CartPage() {
         </div>
 
         {/* Total + Actions */}
-        <div className="mt-8 bg-white rounded-lg p-6 shadow-sm">
+        <div className="mt-8 bg-white rounded-lg p-6 border border-border">
           <div className="flex justify-between items-center mb-6">
-            <span className="text-lg font-medium text-gray-900">Order Total</span>
-            <span className="text-xl font-semibold text-gray-900">
+            <span className="text-lg font-medium text-foreground">Order Total</span>
+            <span className="text-xl font-semibold text-foreground">
               &euro;{total.toFixed(2)}
             </span>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
             <Link
               href="/"
-              className="flex-1 text-center border border-gray-300 text-gray-700 px-6 py-2.5 rounded-lg hover:bg-gray-50 transition-colors"
+              className="flex-1 text-center border border-border text-foreground px-6 py-2.5 rounded-lg hover:bg-surface transition-colors"
             >
               Continue Shopping
             </Link>
             <Link
               href="/checkout"
-              className="flex-1 text-center bg-[#2563EB] text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 transition-colors"
+              className="flex-1 text-center bg-accent text-white px-6 py-2.5 rounded-lg hover:bg-accent-hover transition-colors"
             >
               Proceed to Checkout
             </Link>

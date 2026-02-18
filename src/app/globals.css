@@ -2,12 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #FAFAF8;
-  --foreground: #1a1a1a;
+body {
+  color: #2C2C2C;
+  background: #FAF9F7;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
+/* Gold focus ring for accessibility */
+*:focus-visible {
+  outline: 2px solid #B8956A;
+  outline-offset: 2px;
+}
+
+/* Hide scrollbar utility */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

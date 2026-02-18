@@ -18,7 +18,7 @@ export default function SearchBar({ value, onChange }: SearchBarProps) {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+        className="absolute left-3 top-1/2 -translate-y-1/2 text-muted"
       >
         <circle cx="11" cy="11" r="8" />
         <line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -28,7 +28,7 @@ export default function SearchBar({ value, onChange }: SearchBarProps) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder="Search products..."
-        className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB]"
+        className="w-full pl-10 pr-4 py-2.5 rounded-full border border-border bg-surface text-sm text-foreground placeholder-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
       />
     </div>
   );

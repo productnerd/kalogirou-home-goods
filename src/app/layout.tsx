@@ -1,7 +1,20 @@
 import type { Metadata } from "next";
+import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import { CartProvider } from "@/hooks/useCart";
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin", "greek"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Kalogirou Home Goods",
@@ -14,35 +27,35 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="antialiased">
+    <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
+      <body className="antialiased font-sans">
         <CartProvider>
           <Header />
-          <main className="pt-16">{children}</main>
-          <footer className="border-t border-gray-200 mt-16 py-10 bg-white">
+          <main className="pt-20">{children}</main>
+          <footer className="border-t border-border mt-16 py-12 bg-surface">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider">Kalogirou Home Goods</h3>
-                  <p className="mt-2 text-sm text-gray-600">
+                  <h3 className="font-serif text-lg text-foreground">Kalogirou Home Goods</h3>
+                  <p className="mt-2 text-sm text-muted">
                     Your one-stop shop for quality home goods, plastics, and appliances in Larnaca, Cyprus.
                   </p>
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider">Visit Us</h3>
-                  <div className="mt-2 text-sm text-gray-600 space-y-1">
+                  <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">Visit Us</h3>
+                  <div className="mt-2 text-sm text-muted space-y-1">
                     <p>Larnaca, Cyprus</p>
-                    <p>Mon–Sat: 9:00 AM – 6:00 PM</p>
+                    <p>Mon&ndash;Sat: 9:00 AM &ndash; 6:00 PM</p>
                     <p>
-                      <a href="tel:+35700000000" className="text-[#2563EB] hover:underline">+357 00 000 000</a>
+                      <a href="tel:+35700000000" className="text-accent hover:text-accent-hover">+357 00 000 000</a>
                     </p>
                     <p>
-                      <a href="mailto:info@kalogirou.com" className="text-[#2563EB] hover:underline">info@kalogirou.com</a>
+                      <a href="mailto:info@kalogirou.com" className="text-accent hover:text-accent-hover">info@kalogirou.com</a>
                     </p>
                   </div>
                 </div>
               </div>
-              <div className="mt-8 pt-6 border-t border-gray-100 text-center text-xs text-gray-400">
+              <div className="mt-8 pt-6 border-t border-border text-center text-xs text-muted">
                 &copy; {new Date().getFullYear()} Kalogirou Home Goods. All rights reserved.
               </div>
             </div>

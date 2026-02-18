@@ -17,18 +17,18 @@ export default function CheckoutPage() {
   const [error, setError] = useState('');
 
   if (!loaded) {
-    return <p className="text-center text-gray-500 py-16">Loading...</p>;
+    return <div className="text-center py-16 animate-pulse"><div className="h-6 bg-accent-light rounded w-32 mx-auto" /></div>;
   }
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-[#FAFAF8]">
+      <div className="min-h-screen bg-background">
         <div className="max-w-3xl mx-auto px-4 py-16 text-center">
-          <h1 className="text-2xl font-semibold text-gray-900 mb-4">Checkout</h1>
-          <p className="text-gray-500 mb-8">Nothing to checkout</p>
+          <h1 className="text-2xl font-semibold text-foreground mb-4">Checkout</h1>
+          <p className="text-muted mb-8">Nothing to checkout</p>
           <Link
             href="/"
-            className="inline-block bg-[#2563EB] text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 transition-colors"
+            className="inline-block bg-accent text-white px-6 py-2.5 rounded-lg hover:bg-accent-hover transition-colors"
           >
             Browse Catalog
           </Link>
@@ -80,43 +80,43 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8]">
+    <div className="min-h-screen bg-background">
       <div className="max-w-2xl mx-auto px-4 py-8">
-        <h1 className="text-2xl font-semibold text-gray-900 mb-8">Checkout</h1>
+        <h1 className="text-2xl font-semibold font-serif text-foreground mb-8">Checkout</h1>
 
         {/* Order Summary */}
-        <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
-          <h2 className="text-lg font-medium text-gray-900 mb-4">Order Summary</h2>
+        <div className="bg-white rounded-lg p-6 border border-border mb-6">
+          <h2 className="text-lg font-medium text-foreground mb-4">Order Summary</h2>
           <div className="space-y-3">
             {items.map((item) => (
               <div
                 key={`${item.product_id}-${item.variant_id ?? 'base'}`}
                 className="flex justify-between text-sm"
               >
-                <span className="text-gray-700">
+                <span className="text-foreground">
                   {item.title}
                   {item.variant_label ? ` (${item.variant_label})` : ''} x{item.quantity}
                 </span>
-                <span className="text-gray-900 font-medium">
+                <span className="text-foreground font-medium">
                   &euro;{(item.price * item.quantity).toFixed(2)}
                 </span>
               </div>
             ))}
           </div>
-          <div className="border-t border-gray-100 mt-4 pt-4 flex justify-between">
-            <span className="font-medium text-gray-900">Total</span>
-            <span className="text-lg font-semibold text-gray-900">
+          <div className="border-t border-border mt-4 pt-4 flex justify-between">
+            <span className="font-medium text-foreground">Total</span>
+            <span className="text-lg font-semibold text-foreground">
               &euro;{total.toFixed(2)}
             </span>
           </div>
         </div>
 
         {/* Customer Info Form */}
-        <form onSubmit={handleSubmit} className="bg-white rounded-lg p-6 shadow-sm mb-6">
-          <h2 className="text-lg font-medium text-gray-900 mb-4">Your Details</h2>
+        <form onSubmit={handleSubmit} className="bg-white rounded-lg p-6 border border-border mb-6">
+          <h2 className="text-lg font-medium text-foreground mb-4">Your Details</h2>
           <div className="space-y-4">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="name" className="block text-sm font-medium text-foreground mb-1">
                 Name
               </label>
               <input
@@ -125,11 +125,11 @@ export default function CheckoutPage() {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+                className="w-full rounded-lg border border-border px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
               />
             </div>
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-1">
                 Phone
               </label>
               <input
@@ -138,11 +138,11 @@ export default function CheckoutPage() {
                 required
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+                className="w-full rounded-lg border border-border px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
               />
             </div>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="email" className="block text-sm font-medium text-foreground mb-1">
                 Email
               </label>
               <input
@@ -151,26 +151,33 @@ export default function CheckoutPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+                className="w-full rounded-lg border border-border px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
               />
             </div>
           </div>
 
           {/* Pickup notice */}
-          <div className="mt-6 bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm text-amber-800">
+          <div className="mt-6 bg-accent-light border border-accent rounded-lg p-4 text-sm text-foreground">
             Please allow up to 24 hours for your order to be prepared for pickup.
           </div>
 
           {error && (
-            <div className="mt-4 bg-red-50 border border-red-200 rounded-lg p-4 text-sm text-red-700">
+            <div className="mt-4 bg-error/10 border border-error rounded-lg p-4 text-sm text-error">
               {error}
             </div>
           )}
 
+          <div className="mt-6 flex items-center gap-2 text-sm text-muted">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+            <span>Secure order &mdash; pay in store at pickup</span>
+          </div>
+
           <button
             type="submit"
             disabled={submitting}
-            className="mt-6 w-full bg-[#2563EB] text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="mt-6 w-full bg-accent text-white py-3 rounded-lg font-medium hover:bg-accent-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {submitting ? 'Placing Order...' : 'Place Order'}
           </button>

@@ -81,7 +81,17 @@ export default function Home() {
   }, [debouncedSearch, selectedCategories, sortBy, categories]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6">
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      {/* Hero */}
+      <div className="bg-surface rounded-2xl px-6 py-12 sm:py-16 mb-8 text-center">
+        <h1 className="font-serif text-3xl sm:text-4xl text-foreground mb-3">
+          Quality Home Goods
+        </h1>
+        <p className="text-muted text-base sm:text-lg max-w-md mx-auto">
+          Kitchenware, storage, and everyday essentials for your home. Visit us in Larnaca, Cyprus.
+        </p>
+      </div>
+
       <div className="mb-6">
         <SearchBar value={searchQuery} onChange={setSearchQuery} />
       </div>
@@ -99,7 +109,18 @@ export default function Home() {
       </div>
 
       {loading ? (
-        <p className="text-center text-gray-500 py-16">Loading...</p>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="bg-surface rounded-lg overflow-hidden border border-border animate-pulse">
+              <div className="aspect-square bg-accent-light" />
+              <div className="p-4 space-y-2">
+                <div className="h-4 bg-accent-light rounded w-3/4" />
+                <div className="h-3 bg-accent-light rounded w-1/2" />
+                <div className="h-4 bg-accent-light rounded w-1/3 mt-1.5" />
+              </div>
+            </div>
+          ))}
+        </div>
       ) : (
         <ProductGrid products={products} />
       )}
