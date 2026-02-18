@@ -4,7 +4,11 @@ import Link from 'next/link';
 import { useCart } from '@/hooks/useCart';
 
 export default function CartPage() {
-  const { items, updateQuantity, removeFromCart, total } = useCart();
+  const { items, updateQuantity, removeFromCart, total, loaded } = useCart();
+
+  if (!loaded) {
+    return <p className="text-center text-gray-500 py-16">Loading...</p>;
+  }
 
   if (items.length === 0) {
     return (

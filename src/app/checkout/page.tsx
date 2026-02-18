@@ -9,12 +9,16 @@ import { OrderItem } from '@/types/database';
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { items, total, clearCart } = useCart();
+  const { items, total, clearCart, loaded } = useCart();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+
+  if (!loaded) {
+    return <p className="text-center text-gray-500 py-16">Loading...</p>;
+  }
 
   if (items.length === 0) {
     return (
