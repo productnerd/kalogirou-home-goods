@@ -4,18 +4,26 @@ import { Category } from '@/types/database';
 
 interface CategoryFilterProps {
   categories: Category[];
-  selected: string | null;
-  onSelect: (slug: string | null) => void;
+  selected: string[];
+  onSelect: (slugs: string[]) => void;
 }
 
 export default function CategoryFilter({ categories, selected, onSelect }: CategoryFilterProps) {
+  function toggle(slug: string) {
+    if (selected.includes(slug)) {
+      onSelect(selected.filter((s) => s !== slug));
+    } else {
+      onSelect([...selected, slug]);
+    }
+  }
+
   return (
     <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
       <style jsx>{`div::-webkit-scrollbar { display: none; }`}</style>
       <button
-        onClick={() => onSelect(null)}
+        onClick={() => onSelect([])}
         className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
-          selected === null
+          selected.length === 0
             ? 'bg-[#2563EB] text-white'
             : 'border border-gray-300 text-gray-600 hover:border-gray-400'
         }`}
@@ -25,9 +33,9 @@ export default function CategoryFilter({ categories, selected, onSelect }: Categ
       {categories.map((cat) => (
         <button
           key={cat.id}
-          onClick={() => onSelect(cat.slug)}
+          onClick={() => toggle(cat.slug)}
           className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
-            selected === cat.slug
+            selected.includes(cat.slug)
               ? 'bg-[#2563EB] text-white'
               : 'border border-gray-300 text-gray-600 hover:border-gray-400'
           }`}

@@ -11,7 +11,7 @@ import SortSelect from '@/components/SortSelect';
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<'newest' | 'price_asc' | 'price_desc'>('newest');
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -47,16 +47,19 @@ export default function Home() {
         .select('*, kalogirou_product_images(*), kalogirou_product_variants(*)')
         .eq('is_active', true);
 
-      // Text search
+      // Text search — ilike on title/description/material for partial matching
       if (debouncedSearch) {
-        query = query.textSearch('fts', debouncedSearch, { type: 'websearch' });
+        const term = `%${debouncedSearch}%`;
+        query = query.or(`title.ilike.${term},description.ilike.${term},material.ilike.${term}`);
       }
 
-      // Category filter
-      if (selectedCategory) {
-        const category = categories.find((c) => c.slug === selectedCategory);
-        if (category) {
-          query = query.eq('category_id', category.id);
+      // Category filter — supports multiple selected categories
+      if (selectedCategories.length > 0) {
+        const categoryIds = categories
+          .filter((c) => selectedCategories.includes(c.slug))
+          .map((c) => c.id);
+        if (categoryIds.length > 0) {
+          query = query.in('category_id', categoryIds);
         }
       }
 
@@ -75,7 +78,7 @@ export default function Home() {
     }
 
     fetchProducts();
-  }, [debouncedSearch, selectedCategory, sortBy, categories]);
+  }, [debouncedSearch, selectedCategories, sortBy, categories]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
@@ -86,8 +89,8 @@ export default function Home() {
       <div className="flex items-start justify-between gap-4 mb-6">
         <CategoryFilter
           categories={categories}
-          selected={selectedCategory}
-          onSelect={setSelectedCategory}
+          selected={selectedCategories}
+          onSelect={setSelectedCategories}
         />
         <SortSelect
           value={sortBy}
