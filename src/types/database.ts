@@ -14,6 +14,7 @@ export interface Product {
   sku: string | null;
   category_id: number;
   is_active: boolean;
+  is_top_seller: boolean;
   created_at: string;
   updated_at: string;
   kalogirou_product_images?: ProductImage[];

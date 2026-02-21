@@ -25,10 +25,19 @@ export default function ProductCard({ product }: { product: Product }) {
       className="group block bg-surface rounded-lg overflow-hidden border border-border hover:shadow-lg hover:-translate-y-0.5 transition-all"
     >
       <div className="relative aspect-square bg-accent-light">
-        {isNew && (
-          <span className="absolute top-2 left-2 z-10 bg-accent text-white text-xs font-semibold px-2 py-0.5 rounded">
-            NEW
-          </span>
+        {(isNew || product.is_top_seller) && (
+          <div className="absolute top-2 left-2 z-10 flex flex-col gap-1">
+            {isNew && (
+              <span className="bg-accent text-white text-xs font-semibold px-2 py-0.5 rounded">
+                NEW
+              </span>
+            )}
+            {product.is_top_seller && (
+              <span className="bg-foreground text-white text-xs font-semibold px-2 py-0.5 rounded">
+                TOP SELLER
+              </span>
+            )}
+          </div>
         )}
         {imageUrl ? (
           <img src={imageUrl} alt={product.title} className="object-cover w-full h-full" />
