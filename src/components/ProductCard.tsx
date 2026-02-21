@@ -17,6 +17,7 @@ function getImageUrl(product: Product): string | null {
 export default function ProductCard({ product }: { product: Product }) {
   const imageUrl = getImageUrl(product);
   const hasVariants = product.kalogirou_product_variants && product.kalogirou_product_variants.length > 0;
+  const isNew = Date.now() - new Date(product.created_at).getTime() < 14 * 24 * 60 * 60 * 1000;
 
   return (
     <Link
@@ -24,6 +25,11 @@ export default function ProductCard({ product }: { product: Product }) {
       className="group block bg-surface rounded-lg overflow-hidden border border-border hover:shadow-lg hover:-translate-y-0.5 transition-all"
     >
       <div className="relative aspect-square bg-accent-light">
+        {isNew && (
+          <span className="absolute top-2 left-2 z-10 bg-accent text-white text-xs font-semibold px-2 py-0.5 rounded">
+            NEW
+          </span>
+        )}
         {imageUrl ? (
           <img src={imageUrl} alt={product.title} className="object-cover w-full h-full" />
         ) : (
