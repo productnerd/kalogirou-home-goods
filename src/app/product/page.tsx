@@ -23,6 +23,7 @@ function ProductDetail() {
   const [mainImage, setMainImage] = useState<string | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [selectedPackSize, setSelectedPackSize] = useState<string | null>(null);
   const [addedFeedback, setAddedFeedback] = useState(false);
   const [related, setRelated] = useState<Product[]>([]);
 
@@ -104,19 +105,22 @@ function ProductDetail() {
 
   const sizes = Array.from(new Set(variants.map((v) => v.size).filter(Boolean))) as string[];
   const colors = Array.from(new Set(variants.map((v) => v.color).filter(Boolean))) as string[];
+  const packSizes = Array.from(new Set(variants.map((v) => v.pack_size).filter(Boolean))) as string[];
 
   const matchedVariant = hasVariants
     ? variants.find((v) => {
         const sizeMatch = sizes.length === 0 || v.size === selectedSize;
         const colorMatch = colors.length === 0 || v.color === selectedColor;
-        return sizeMatch && colorMatch;
+        const packMatch = packSizes.length === 0 || v.pack_size === selectedPackSize;
+        return sizeMatch && colorMatch && packMatch;
       })
     : null;
 
   const selectionsComplete =
     !hasVariants ||
     ((sizes.length === 0 || selectedSize !== null) &&
-     (colors.length === 0 || selectedColor !== null));
+     (colors.length === 0 || selectedColor !== null) &&
+     (packSizes.length === 0 || selectedPackSize !== null));
 
   const displayPrice = hasVariants
     ? matchedVariant ? matchedVariant.price : null
@@ -136,7 +140,7 @@ function ProductDetail() {
       variant_id: matchedVariant?.id,
       title: product.title,
       variant_label: matchedVariant
-        ? [matchedVariant.size, matchedVariant.color].filter(Boolean).join(' / ')
+        ? [matchedVariant.size, matchedVariant.color, matchedVariant.pack_size].filter(Boolean).join(' / ')
         : undefined,
       price: displayPrice!,
       quantity: 1,
@@ -255,6 +259,27 @@ function ProductDetail() {
                     }`}
                   >
                     {color}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {packSizes.length > 0 && (
+            <div className="mt-4">
+              <p className="text-sm font-medium text-foreground mb-2">Pack Size</p>
+              <div className="flex flex-wrap gap-2">
+                {packSizes.map((ps) => (
+                  <button
+                    key={ps}
+                    onClick={() => setSelectedPackSize(selectedPackSize === ps ? null : ps)}
+                    className={`px-4 py-2 rounded-md text-sm border transition-colors ${
+                      selectedPackSize === ps
+                        ? 'border-accent bg-accent-light text-foreground'
+                        : 'border-border text-foreground hover:border-accent'
+                    }`}
+                  >
+                    {ps}
                   </button>
                 ))}
               </div>
